@@ -10,7 +10,7 @@ public class ConsumerLoan {
 	ConsumerLoan(){
 		JFrame f=new JFrame("Loan Assistant");		
 		JLabel bal=new JLabel("Loan Balance");
-		JLabel rate=new JLabel("Interest Rate");
+		JLabel rate=new JLabel("Interest rate");
 		JLabel no=new JLabel("Number of Payments");
 		JLabel monthly=new JLabel("Monthly Payments");
 		JLabel analysis=new JLabel("Loan Analysis:");		
@@ -56,7 +56,7 @@ public class ConsumerLoan {
 		});
 		compute.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				double balance,rat,month,mutiplier,last;
+				double balance,rate,month,mutiplier,last;
 				int payment;
 				if(!isValid(loan.getText())) {
 					JOptionPane.showConfirmDialog(null,"Invalid or empty Loan Balance field \nPlease correct","Balance Input Error",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
@@ -65,7 +65,7 @@ public class ConsumerLoan {
 					return;
 				}
 				if(!isValid(interest.getText())) {
-					JOptionPane.showConfirmDialog(null,"Invalid or empty Interest Rate field \nPlease correct","Interest Rate Input Error",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showConfirmDialog(null,"Invalid or empty Interest rate field \nPlease correct","Interest rate Input Error",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
 					interest.setText("");
 					interest.requestFocus();
 					return;
@@ -83,8 +83,8 @@ public class ConsumerLoan {
 					return;
 				}
 				balance=Double.valueOf(loan.getText()).doubleValue();
-				rat=Double.valueOf(interest.getText()).doubleValue();
-				rat/=1200;
+				rate=Double.valueOf(interest.getText()).doubleValue();
+				rate/=1200;
 				last=balance;
 				if(byMonth.isVisible()) {
 					payment=Integer.valueOf(payments.getText()).intValue();
@@ -94,13 +94,13 @@ public class ConsumerLoan {
 						payments.requestFocus();
 						return;
 					}
-					if(rat==0) {
+					if(rate==0) {
 						month=balance/payment;
 						months.setText(new DecimalFormat("0.00").format(month));
 					}
 					else {
-					mutiplier=Math.pow(1+rat,payment);
-					month=balance*rat*mutiplier/(mutiplier-1);
+					mutiplier=Math.pow(1+rate,payment);
+					month=balance*rate*mutiplier/(mutiplier-1);
 					months.setText(new DecimalFormat("0.00").format(month));
 					}
 				}
@@ -112,10 +112,10 @@ public class ConsumerLoan {
 						months.requestFocus();
 						return;
 					}
-					if(month<=balance*rat+1.0) {
-						if(JOptionPane.showConfirmDialog(null,"Minimum payment must be Rs. "+new DecimalFormat("0.00").format((int)(balance*rat+1.0))+"\nDo you want to use minimum payment?","Input Error",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION) {
-							months.setText(new DecimalFormat("0.00").format((int)(balance*rat+1.0)));
-							month=(int)(balance*rat+1.0);
+					if(month<=balance*rate+1.0) {
+						if(JOptionPane.showConfirmDialog(null,"Minimum payment must be Rs. "+new DecimalFormat("0.00").format((int)(balance*rate+1.0))+"\nDo you want to use minimum payment?","Input Error",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE)==JOptionPane.YES_OPTION) {
+							months.setText(new DecimalFormat("0.00").format((int)(balance*rate+1.0)));
+							month=(int)(balance*rate+1.0);
 						}
 						else {
 							JOptionPane.showConfirmDialog(null,"Enter Monthly Payment field again","Monthly Payment Input Error",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE);
@@ -124,18 +124,18 @@ public class ConsumerLoan {
 							return;
 						}
 					}
-					if(rat==0) payment=(int)(balance/month);
-					else  payment=(int)((Math.log(month)-Math.log(month-balance*rat))/Math.log(1+rat));
-					for(int i=1;i<=payment-1;i++) last+=last*rat-month;
+					if(rate==0) payment=(int)(balance/month);
+					else  payment=(int)((Math.log(month)-Math.log(month-balance*rate))/Math.log(1+rate));
+					for(int i=1;i<=payment-1;i++) last+=last*rate-month;
 					if(last>month) {
-						last+=last*rat-month;
+						last+=last*rate-month;
 						payment++;
 					}
 					payments.setText(String.valueOf(payment));
 				}
 
 				result.setText("Loan Balance : Rs. "+new DecimalFormat("0.00").format(balance));
-				result.append("\n"+"Interest Rate : "+new DecimalFormat("0.00").format(rat*1200)+"%");
+				result.append("\n"+"Interest rate : "+new DecimalFormat("0.00").format(rate*1200)+"%");
 				result.append("\n\n"+String.valueOf(payment-1)+" Payments of Rs. "+new DecimalFormat("0.00").format(month));
 				result.append("\n"+"Final Payment of Rs. "+new DecimalFormat("0.00").format(last));
 				result.append("\n"+"Total Payment of Rs. "+new DecimalFormat("0.00").format((payment-1)*month+last));
